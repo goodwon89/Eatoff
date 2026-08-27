@@ -1,0 +1,248 @@
+/* ==========================================================================
+   Eatoff — Design Tokens
+   Minimally Bold. Clear State Distinction. Generous Spacing.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&display=swap');
+
+:root {
+  /* ---------- Color: Canvas & Surface ---------- */
+  --eat-canvas: #F5F5F0;           /* warm off-white app background */
+  --eat-surface: #FFFFFF;          /* cards, sheets, dialogs */
+  --eat-surface-alt: #FAFAF6;      /* subtle inset (inputs, chips) */
+  --eat-border: #EAEAE3;           /* hairline dividers, borders */
+  --eat-border-strong: #D8D8D0;    /* focused borders */
+
+  /* ---------- Color: Text ---------- */
+  --eat-text: #111111;             /* primary text, timer digits */
+  --eat-text-2: #4A4A4A;           /* body */
+  --eat-text-3: #888888;           /* secondary, hint, caption */
+  --eat-text-4: #B8B8B0;           /* disabled */
+  --eat-text-inverse: #FFFFFF;     /* on solid buttons */
+
+  /* ---------- Color: State (Signature) ---------- */
+  --eat-fasting: #E5342A;          /* Fasting Red — energy, focus */
+  --eat-fasting-ink: #B1231B;      /* text on tinted surfaces */
+  --eat-fasting-soft: #FDECEA;     /* tinted card bg */
+  --eat-fasting-ring: #E5342A;     /* progress ring stroke */
+
+  --eat-eating: #1F9D55;           /* Eating Green — vitality */
+  --eat-eating-ink: #157341;
+  --eat-eating-soft: #E6F5EC;
+  --eat-eating-ring: #1F9D55;
+
+  /* ---------- Color: Semantic Utility ---------- */
+  --eat-success: #1F9D55;
+  --eat-warning: #E6A100;
+  --eat-danger:  #E5342A;
+  --eat-info:    #2A6FDB;
+
+  /* ---------- Color: Ring track ---------- */
+  --eat-track: #EDEDE6;            /* neutral progress track */
+
+  /* ---------- Radius ---------- */
+  --eat-radius-xs: 6px;
+  --eat-radius-sm: 8px;            /* inputs, chips */
+  --eat-radius-md: 12px;           /* cards */
+  --eat-radius-lg: 16px;           /* prominent cards */
+  --eat-radius-xl: 20px;           /* bottom sheets, modals */
+  --eat-radius-2xl: 28px;          /* hero surfaces */
+  --eat-radius-pill: 999px;        /* pills, buttons, timer ring */
+
+  /* ---------- Spacing (4px base) ---------- */
+  --eat-space-0: 0;
+  --eat-space-1: 4px;
+  --eat-space-2: 8px;
+  --eat-space-3: 12px;
+  --eat-space-4: 16px;
+  --eat-space-5: 24px;
+  --eat-space-6: 32px;
+  --eat-space-7: 48px;
+  --eat-space-8: 64px;
+  --eat-space-9: 96px;
+
+  /* ---------- Shadow (light mode — near-none) ---------- */
+  --eat-shadow-none: none;
+  --eat-shadow-1: 0 1px 2px rgba(17, 17, 17, 0.04), 0 0 0 1px rgba(17,17,17,0.04);
+  --eat-shadow-2: 0 4px 16px rgba(17, 17, 17, 0.06), 0 0 0 1px rgba(17,17,17,0.04);
+  --eat-shadow-lift: 0 12px 40px rgba(17, 17, 17, 0.10);
+
+  /* ---------- Motion ---------- */
+  --eat-ease: cubic-bezier(0.22, 1, 0.36, 1);   /* smooth ease-out */
+  --eat-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --eat-dur-fast: 120ms;
+  --eat-dur: 220ms;
+  --eat-dur-slow: 360ms;
+
+  /* ---------- Type: Family ---------- */
+  --eat-font-sans: 'Inter', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --eat-font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --eat-font-numeric: 'JetBrains Mono', 'Inter', ui-monospace, monospace;
+
+  /* ---------- Type: Scale ---------- */
+  --eat-text-xxs: 11px;
+  --eat-text-xs:  12px;
+  --eat-text-sm:  14px;
+  --eat-text-base:16px;
+  --eat-text-md:  18px;
+  --eat-text-lg:  22px;
+  --eat-text-xl:  28px;
+  --eat-text-2xl: 36px;
+  --eat-text-3xl: 48px;
+  --eat-text-hero: 72px;
+  --eat-text-timer: 96px;       /* huge timer digits */
+  --eat-text-timer-lg: 120px;
+
+  /* ---------- Type: Weight ---------- */
+  --eat-w-regular: 400;
+  --eat-w-medium: 500;
+  --eat-w-semi: 600;
+  --eat-w-bold: 700;
+
+  /* ---------- Type: Leading/Tracking ---------- */
+  --eat-lh-tight: 1.05;
+  --eat-lh-snug: 1.2;
+  --eat-lh-normal: 1.45;
+  --eat-lh-relaxed: 1.6;
+  --eat-tracking-tight: -0.02em;
+  --eat-tracking-tighter: -0.035em;   /* timer digits */
+  --eat-tracking-normal: 0;
+  --eat-tracking-wide: 0.06em;        /* labels, tabs */
+  --eat-tracking-caps: 0.12em;        /* eyebrows / all-caps */
+}
+
+/* ---------- Dark theme ---------- */
+:root[data-theme="dark"],
+.eat-dark {
+  --eat-canvas: #0A0A0A;
+  --eat-surface: #111111;
+  --eat-surface-alt: #171717;
+  --eat-border: #1F1F1F;
+  --eat-border-strong: #2A2A2A;
+
+  --eat-text: #FFFFFF;
+  --eat-text-2: #C8C8C8;
+  --eat-text-3: #888888;
+  --eat-text-4: #555555;
+  --eat-text-inverse: #0A0A0A;
+
+  --eat-fasting: #FF4A3D;
+  --eat-fasting-ink: #FF7A70;
+  --eat-fasting-soft: #2A100E;
+
+  --eat-eating: #3BD671;
+  --eat-eating-ink: #6EE29B;
+  --eat-eating-soft: #0E2A1A;
+
+  --eat-track: #1F1F1F;
+
+  --eat-shadow-1: 0 1px 2px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04);
+  --eat-shadow-2: 0 4px 16px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05);
+  --eat-shadow-lift: 0 12px 40px rgba(0,0,0,0.6);
+}
+
+/* ==========================================================================
+   Semantic Type Classes — apply these directly for consistent typography
+   ========================================================================== */
+
+.eat-display {
+  font-family: var(--eat-font-sans);
+  font-size: var(--eat-text-3xl);
+  font-weight: var(--eat-w-bold);
+  line-height: var(--eat-lh-tight);
+  letter-spacing: var(--eat-tracking-tight);
+  color: var(--eat-text);
+}
+.eat-h1 {
+  font-family: var(--eat-font-sans);
+  font-size: var(--eat-text-2xl);
+  font-weight: var(--eat-w-bold);
+  line-height: var(--eat-lh-tight);
+  letter-spacing: var(--eat-tracking-tight);
+  color: var(--eat-text);
+}
+.eat-h2 {
+  font-family: var(--eat-font-sans);
+  font-size: var(--eat-text-xl);
+  font-weight: var(--eat-w-semi);
+  line-height: var(--eat-lh-snug);
+  letter-spacing: var(--eat-tracking-tight);
+  color: var(--eat-text);
+}
+.eat-h3 {
+  font-family: var(--eat-font-sans);
+  font-size: var(--eat-text-lg);
+  font-weight: var(--eat-w-semi);
+  line-height: var(--eat-lh-snug);
+  color: var(--eat-text);
+}
+.eat-h4 {
+  font-family: var(--eat-font-sans);
+  font-size: var(--eat-text-md);
+  font-weight: var(--eat-w-semi);
+  line-height: var(--eat-lh-snug);
+  color: var(--eat-text);
+}
+.eat-body {
+  font-family: var(--eat-font-sans);
+  font-size: var(--eat-text-base);
+  font-weight: var(--eat-w-regular);
+  line-height: var(--eat-lh-normal);
+  color: var(--eat-text-2);
+}
+.eat-body-sm {
+  font-family: var(--eat-font-sans);
+  font-size: var(--eat-text-sm);
+  font-weight: var(--eat-w-regular);
+  line-height: var(--eat-lh-normal);
+  color: var(--eat-text-2);
+}
+.eat-caption {
+  font-family: var(--eat-font-sans);
+  font-size: var(--eat-text-xs);
+  font-weight: var(--eat-w-medium);
+  line-height: var(--eat-lh-normal);
+  color: var(--eat-text-3);
+}
+.eat-label {
+  font-family: var(--eat-font-sans);
+  font-size: var(--eat-text-xs);
+  font-weight: var(--eat-w-semi);
+  line-height: 1;
+  letter-spacing: var(--eat-tracking-caps);
+  text-transform: uppercase;
+  color: var(--eat-text-3);
+}
+.eat-timer {
+  font-family: var(--eat-font-numeric);
+  font-size: var(--eat-text-timer);
+  font-weight: var(--eat-w-bold);
+  line-height: 1;
+  letter-spacing: var(--eat-tracking-tighter);
+  font-variant-numeric: tabular-nums;
+  color: var(--eat-text);
+}
+.eat-timer-lg {
+  font-family: var(--eat-font-numeric);
+  font-size: var(--eat-text-timer-lg);
+  font-weight: var(--eat-w-bold);
+  line-height: 1;
+  letter-spacing: var(--eat-tracking-tighter);
+  font-variant-numeric: tabular-nums;
+  color: var(--eat-text);
+}
+.eat-mono {
+  font-family: var(--eat-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Global base */
+* { box-sizing: border-box; }
+html, body {
+  font-family: var(--eat-font-sans);
+  background: var(--eat-canvas);
+  color: var(--eat-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}

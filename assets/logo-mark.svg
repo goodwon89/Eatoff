@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Eatoff mark: fasting/eating dual ring — half red, half green, gap at 12 o'clock -->
+  <circle cx="32" cy="32" r="24" stroke="#EAEAE3" stroke-width="6"/>
+  <path d="M 32 8 A 24 24 0 0 1 32 56" stroke="#1F9D55" stroke-width="6" stroke-linecap="round"/>
+  <path d="M 32 8 A 24 24 0 0 0 32 56" stroke="#E5342A" stroke-width="6" stroke-linecap="round"/>
+</svg>

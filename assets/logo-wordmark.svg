@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 64" fill="none">
+  <circle cx="32" cy="32" r="20" stroke="#EAEAE3" stroke-width="5"/>
+  <path d="M 32 12 A 20 20 0 0 1 32 52" stroke="#1F9D55" stroke-width="5" stroke-linecap="round"/>
+  <path d="M 32 12 A 20 20 0 0 0 32 52" stroke="#E5342A" stroke-width="5" stroke-linecap="round"/>
+  <text x="68" y="42" font-family="Inter, sans-serif" font-weight="700" font-size="28" letter-spacing="-0.02em" fill="#111111">Eatoff</text>
+</svg>

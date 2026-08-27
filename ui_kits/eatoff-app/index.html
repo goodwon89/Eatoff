@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>Eatoff — Mobile UI Kit</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="../../colors_and_type.css">
+<style>
+  html, body { margin: 0; padding: 0; background: #E8E8E3; font-family: var(--eat-font-sans); }
+  body.eat-dark-bg { background: #050505; }
+  .stage {
+    min-height: 100vh;
+    padding: 40px 32px 56px;
+    display: flex; flex-direction: column; align-items: center; gap: 32px;
+  }
+  .phones-row {
+    display: flex; gap: 32px; flex-wrap: wrap; justify-content: center;
+  }
+  .lead { max-width: 720px; text-align: center; }
+  .lead h1 { font-size: 32px; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 8px; color: #111; }
+  .lead p  { font-size: 14px; color: #4A4A4A; margin: 0; line-height: 1.5; }
+  .dark-toggle {
+    padding: 8px 16px; border: 1px solid #EAEAE3; border-radius: 999px;
+    background: #FFF; color: #111; font-size: 12px; font-weight: 600;
+    cursor: pointer; font-family: var(--eat-font-sans);
+  }
+  .widget-strip { padding: 32px 24px; background: linear-gradient(135deg, #1a1a1a, #0a0a0a); border-radius: 24px; }
+  .widget-strip h3 { color: #FFF; font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; margin: 0 0 20px; opacity: 0.7; text-align: center; }
+  body.eat-dark-bg .lead h1 { color: #FFF; }
+  body.eat-dark-bg .lead p  { color: #C8C8C8; }
+  body.eat-dark-bg .dark-toggle { background: #111; color: #FFF; border-color: #1F1F1F; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+<script type="text/babel" src="android_frame.jsx"></script>
+<script type="text/babel" src="EatoffComponents.jsx"></script>
+<script type="text/babel" src="HomeScreen.jsx"></script>
+<script type="text/babel" src="PlansScreen.jsx"></script>
+<script type="text/babel" src="HistoryScreen.jsx"></script>
+<script type="text/babel" src="SettingsScreen.jsx"></script>
+<script type="text/babel" src="StagesSheet.jsx"></script>
+<script type="text/babel" src="WidgetsShowcase.jsx"></script>
+
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+// A minimalist Android frame wrapper that skips the M3 app bar (Eatoff has its own headers)
+function EatoffPhone({ dark, children }) {
+  const c = eatColors(dark);
+  return (
+    <div style={{
+      width: 380, height: 780, borderRadius: 40, overflow: 'hidden',
+      background: c.canvas,
+      border: `10px solid ${dark ? '#000' : '#1a1a1a'}`,
+      boxShadow: dark ? '0 30px 80px rgba(0,0,0,0.7)' : '0 30px 80px rgba(0,0,0,0.20)',
+      position: 'relative', boxSizing: 'border-box',
+    }}>
+      {/* Status bar */}
+      <div style={{
+        height: 36, display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: '0 20px', color: c.text, fontFamily: FONT_SANS, fontSize: 13, fontWeight: 600,
+        position: 'relative',
+      }}>
+        <span style={{ fontVariantNumeric: 'tabular-nums' }}>9:41</span>
+        <div style={{ position: 'absolute', left: '50%', top: 6, transform: 'translateX(-50%)', width: 90, height: 24, borderRadius: 999, background: '#000' }}></div>
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <i data-lucide="wifi" style={{ width: 14, height: 14 }}></i>
+          <i data-lucide="battery-medium" style={{ width: 18, height: 18 }}></i>
+        </div>
+      </div>
+      {/* Screen content */}
+      <div style={{ height: 'calc(100% - 36px - 20px)', overflow: 'hidden', position: 'relative' }}>
+        {children}
+      </div>
+      {/* Gesture bar */}
+      <div style={{ height: 20, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ width: 120, height: 4, borderRadius: 999, background: c.text, opacity: 0.4 }}></div>
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  const [dark, setDark] = useState(false);
+  const [tab, setTab] = useState('home');
+  const [plan, setPlan] = useState('16:8');
+  const [stagesOpen, setStagesOpen] = useState(false);
+  const [session, setSession] = useState({
+    state: 'fasting',
+    elapsed: 14 * 3600 + 32 * 60 + 8,
+    targetSec: 16 * 3600,
+  });
+
+  // Persist tab
+  useEffect(() => {
+    const t = localStorage.getItem('eatoff.tab');
+    if (t) setTab(t);
+    const d = localStorage.getItem('eatoff.dark');
+    if (d === '1') setDark(true);
+  }, []);
+  useEffect(() => { localStorage.setItem('eatoff.tab', tab); }, [tab]);
+  useEffect(() => { localStorage.setItem('eatoff.dark', dark ? '1' : '0'); }, [dark]);
+
+  useEffect(() => {
+    document.body.classList.toggle('eat-dark-bg', dark);
+  }, [dark]);
+
+  // Live tick
+  useEffect(() => {
+    const id = setInterval(() => {
+      setSession(s => ({ ...s, elapsed: s.elapsed + 1 }));
+    }, 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  // Expose global for HomeScreen "toggle state" button
+  useEffect(() => {
+    window.__eatoff = {
+      toggleState: () => setSession(s => ({
+        ...s,
+        state: s.state === 'fasting' ? 'eating' : 'fasting',
+        elapsed: 0,
+        targetSec: s.state === 'fasting' ? 8 * 3600 : 16 * 3600,
+      })),
+    };
+  }, []);
+
+  // Re-render lucide icons on updates
+  useEffect(() => {
+    if (window.lucide) lucide.createIcons({attrs:{'stroke-width':1.75,'stroke-linecap':'round','stroke-linejoin':'round'}});
+  });
+
+  const screen = (() => {
+    switch (tab) {
+      case 'home':     return <HomeScreen dark={dark} session={session} onOpenStages={() => setStagesOpen(true)}/>;
+      case 'plans':    return <PlansScreen dark={dark} currentPlan={plan} onPickPlan={setPlan}/>;
+      case 'history':  return <HistoryScreen dark={dark}/>;
+      case 'settings': return <SettingsScreen dark={dark} onToggleTheme={(m) => setDark(m === 'dark')}/>;
+      default:         return null;
+    }
+  })();
+
+  const c = eatColors(dark);
+  return (
+    <div className="stage">
+      <div className="lead">
+        <h1>Eatoff · Mobile UI Kit</h1>
+        <p>미니멀한 간헐적 단식 타이머. 홈 · 플랜 · 기록 · 설정 4개 탭 클릭 프로토타입.</p>
+        <div style={{ marginTop: 16, display: 'flex', gap: 8, justifyContent: 'center' }}>
+          <button className="dark-toggle" onClick={() => setDark(d => !d)}>
+            {dark ? '☾ Dark' : '☀ Light'}
+          </button>
+          <button className="dark-toggle" onClick={() => setSession(s => ({ ...s, state: s.state === 'fasting' ? 'eating' : 'fasting', elapsed: s.state === 'fasting' ? 3600 * 2 + 60*14 : 3600*14+60*32, targetSec: s.state === 'fasting' ? 8*3600 : 16*3600 }))}>
+            상태 전환 · {session.state === 'fasting' ? '단식' : '식사'}
+          </button>
+        </div>
+      </div>
+
+      <div className="phones-row">
+        <EatoffPhone dark={dark}>
+          <Screen dark={dark} tab={tab} onTab={setTab}>
+            {screen}
+          </Screen>
+          <StagesSheet open={stagesOpen} onClose={() => setStagesOpen(false)} dark={dark}/>
+        </EatoffPhone>
+      </div>
+
+      {/* Widgets showcase */}
+      <div className="widget-strip">
+        <h3>Home Widgets</h3>
+        <div style={{ display: 'flex', gap: 20, alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <AndroidWidget4x2 state="fasting"/>
+          <AndroidWidget2x2 state="fasting"/>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Wait until Babel has compiled all scripts + components exported
+function boot() {
+  if (!window.HomeScreen || !window.PlansScreen || !window.HistoryScreen || !window.SettingsScreen || !window.StagesSheet || !window.eatColors) {
+    return setTimeout(boot, 30);
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+}
+boot();
+</script>
+</body>
+</html>
